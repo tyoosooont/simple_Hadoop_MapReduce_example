@@ -1,14 +1,22 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 import sys
+import re
 
-# get all lines from stdin
+# Define a basic list of English stopwords
+stopwords = {
+    'the', 'and', 'to', 'of', 'a', 'in', 'that', 'it', 'is', 'was', 'he', 'for',
+    'on', 'with', 'as', 'his', 'i', 'at', 'by', 'an', 'be', 'this', 'have', 'from',
+    'or', 'one', 'had', 'not', 'but', 'what', 'all', 'were', 'we', 'when', 'your',
+    'can', 'there', 'their', 'so', 'if', 'me', 'my', 'them', 'no', 'are', 'you', 'do',
+    'who', 'which', 'will', 'would', 'could', 'should', 'been', 'he', 'she', 'they',
+    'them', 'i', 'you', 'its', 'then', 'because', 'into', 'out', 'about'
+}
+
 for line in sys.stdin:
-    # remove leading and trailing whitespace
-    line = line.strip()
-
-    # split the line into words; splits on any whitespace
+    line = line.strip().lower()
+    # Remove punctuation
+    line = re.sub(r'[^\w\s]', '', line)
     words = line.split()
-
-    # output tuples (word, 1) in tab-delimited format
     for word in words:
-        print '%s\t%s' % (word, "1")
+        if word and word not in stopwords:
+            print(f"{word}\t1")
